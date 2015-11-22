@@ -80,6 +80,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         print("In didSelectAnnotationView")
+        //let photoAlbumViewController = self.storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
+        //self.presentViewController(photoAlbumViewController, animated: true, completion: nil)
+        performSegueWithIdentifier("displayPhotoAlbum", sender: view)
     }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

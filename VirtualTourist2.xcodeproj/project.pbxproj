@@ -15,6 +15,7 @@
 		F7EE83A11C022AFD005D1F2C /* VirtualTourist2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83A01C022AFD005D1F2C /* VirtualTourist2Tests.swift */; };
 		F7EE83AC1C022AFD005D1F2C /* VirtualTourist2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83AB1C022AFD005D1F2C /* VirtualTourist2UITests.swift */; };
 		F7EE83BA1C022B1E005D1F2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7EE83B91C022B1E005D1F2C /* MapKit.framework */; };
+		F7EE83BC1C02529C005D1F2C /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83BB1C02529C005D1F2C /* PhotoAlbumViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		F7EE83AB1C022AFD005D1F2C /* VirtualTourist2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTourist2UITests.swift; sourceTree = "<group>"; };
 		F7EE83AD1C022AFD005D1F2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7EE83B91C022B1E005D1F2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		F7EE83BB1C02529C005D1F2C /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				F7EE83921C022AFD005D1F2C /* Assets.xcassets */,
 				F7EE83941C022AFD005D1F2C /* LaunchScreen.storyboard */,
 				F7EE83971C022AFD005D1F2C /* Info.plist */,
+				F7EE83BB1C02529C005D1F2C /* PhotoAlbumViewController.swift */,
 			);
 			path = VirtualTourist2;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			files = (
 				F7EE838E1C022AFD005D1F2C /* ViewController.swift in Sources */,
 				F7EE838C1C022AFD005D1F2C /* AppDelegate.swift in Sources */,
+				F7EE83BC1C02529C005D1F2C /* PhotoAlbumViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
