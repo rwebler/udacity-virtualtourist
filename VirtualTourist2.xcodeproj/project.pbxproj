@@ -14,6 +14,7 @@
 		F7EE83961C022AFD005D1F2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7EE83941C022AFD005D1F2C /* LaunchScreen.storyboard */; };
 		F7EE83A11C022AFD005D1F2C /* VirtualTourist2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83A01C022AFD005D1F2C /* VirtualTourist2Tests.swift */; };
 		F7EE83AC1C022AFD005D1F2C /* VirtualTourist2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83AB1C022AFD005D1F2C /* VirtualTourist2UITests.swift */; };
+		F7EE83BA1C022B1E005D1F2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7EE83B91C022B1E005D1F2C /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		F7EE83A71C022AFD005D1F2C /* VirtualTourist2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VirtualTourist2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7EE83AB1C022AFD005D1F2C /* VirtualTourist2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTourist2UITests.swift; sourceTree = "<group>"; };
 		F7EE83AD1C022AFD005D1F2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7EE83B91C022B1E005D1F2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7EE83BA1C022B1E005D1F2C /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +80,7 @@
 		F7EE837F1C022AFC005D1F2C = {
 			isa = PBXGroup;
 			children = (
+				F7EE83B91C022B1E005D1F2C /* MapKit.framework */,
 				F7EE838A1C022AFC005D1F2C /* VirtualTourist2 */,
 				F7EE839F1C022AFD005D1F2C /* VirtualTourist2Tests */,
 				F7EE83AA1C022AFD005D1F2C /* VirtualTourist2UITests */,
@@ -193,6 +197,12 @@
 				TargetAttributes = {
 					F7EE83871C022AFC005D1F2C = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = N96JEJLPE8;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					F7EE839B1C022AFD005D1F2C = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -397,6 +407,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = VirtualTourist2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rodrigowebler.VirtualTourist2;
@@ -408,6 +419,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = VirtualTourist2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rodrigowebler.VirtualTourist2;
