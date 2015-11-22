@@ -20,6 +20,21 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let latitude = defaults.doubleForKey("latitude") as? Double {
+            if let longitude = defaults.doubleForKey("longitude") as? Double {
+                let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                mapView.setCenterCoordinate(coordinate, animated: true)
+                if let latitudeDelta = defaults.doubleForKey("latitudeDelta") as? Double {
+                    if let longitudeDelta = defaults.doubleForKey("longitudeDelta") as? Double {
+                        let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
+                        let region = MKCoordinateRegionMake(coordinate, span)
+                        mapView.setRegion(region, animated: true)
+                    }
+                }
+            }
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -67,12 +82,24 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("In didSelectAnnotationView")
     }
     
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        print("In regionDidChangeAnimated")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setDouble(mapView.centerCoordinate.latitude, forKey: "latitude")
+        defaults.setDouble(mapView.centerCoordinate.longitude, forKey: "longitude")
+        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "latitudeDelta")
+        defaults.setDouble(mapView.region.span.longitudeDelta, forKey: "longitudeDelta")
+    }
+    
+    func getMapViewCoordinateFromPoint(point: CGPoint) -> CLLocationCoordinate2D {
+        return mapView.convertPoint(point, toCoordinateFromView: mapView)
+    }
+    
     // Long Press Gesture Action
     @IBAction func longPressed(sender: UILongPressGestureRecognizer)
     {
         print("longpressed")
-        let point = sender.locationInView(mapView)
-        let coordinate = mapView.convertPoint(point , toCoordinateFromView: mapView)
+        let coordinate = getMapViewCoordinateFromPoint(sender.locationInView(mapView))
         
         switch (sender.state) {
         case .Began:
