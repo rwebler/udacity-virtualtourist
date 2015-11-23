@@ -11,8 +11,19 @@ import UIKit
 import MapKit
 
 class PhotoAlbumViewController: UIViewController {
+    
+    @IBOutlet weak var mapView: MKMapView!
+    var pinCenterCoordinate: CLLocationCoordinate2D?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let center = pinCenterCoordinate {
+            mapView.setCenterCoordinate(center, animated: true)
+            mapView.setRegion(MKCoordinateRegionMake(center, MKCoordinateSpanMake(0.01, 0.01)), animated: true)
+            let pin = MKPointAnnotation()
+            pin.coordinate = center
+            mapView.addAnnotation(pin)
+        }
     }
     
     override func viewDidAppear(animated: Bool) {

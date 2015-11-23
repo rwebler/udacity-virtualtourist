@@ -119,6 +119,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "displayPhotoAlbum") {
+            let photoAlbumVC = segue.destinationViewController as! PhotoAlbumViewController
+            let pin = sender as! MKAnnotationView
+            photoAlbumVC.pinCenterCoordinate = getMapViewCoordinateFromPoint(pin.center)
+        }
+    }
 
 }
 
