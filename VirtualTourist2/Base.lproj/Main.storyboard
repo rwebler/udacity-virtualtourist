@@ -59,24 +59,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="S7d-ny-aDB">
-                                <rect key="frame" x="20" y="236" width="560" height="344"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MI7-LF-L8R">
+                                <rect key="frame" x="20" y="72" width="560" height="136"/>
                                 <animations/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="hDb-cy-QD5">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="136" id="LhS-Yg-nWB"/>
+                                </constraints>
+                            </mapView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gje-dq-ZN7">
+                                <rect key="frame" x="20" y="216" width="560" height="364"/>
+                                <animations/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GdW-dR-34m">
                                     <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="thumbnail" id="Df6-gg-nbM" customClass="PhotoAlbumCollectionViewCell" customModule="VirtualTourist2" customModuleProvider="target">
-                                        <rect key="frame" x="5" y="69" width="100" height="100"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="thumbnail" id="gdg-23-umC" customClass="PhotoAlbumCollectionViewCell" customModule="VirtualTourist2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQf-0h-Vs0">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B5f-KC-lP7">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <animations/>
                                                 </imageView>
@@ -85,39 +92,38 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
-                                        <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottomMargin" secondItem="B5f-KC-lP7" secondAttribute="bottom" constant="-8" id="Dg8-cB-iRb"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="B5f-KC-lP7" secondAttribute="trailing" constant="-8" id="PFV-e7-TD1"/>
+                                            <constraint firstItem="B5f-KC-lP7" firstAttribute="top" secondItem="gdg-23-umC" secondAttribute="topMargin" constant="-8" id="a9N-gW-u9o"/>
+                                            <constraint firstItem="B5f-KC-lP7" firstAttribute="leading" secondItem="gdg-23-umC" secondAttribute="leadingMargin" constant="-8" id="bAg-QZ-hC6"/>
+                                        </constraints>
                                         <connections>
-                                            <outlet property="imageView" destination="yQf-0h-Vs0" id="YGp-V4-UwM"/>
+                                            <outlet property="imageView" destination="B5f-KC-lP7" id="zOZ-p4-T1D"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="GL0-sg-eXP" id="6gy-Ul-ABY"/>
-                                    <outlet property="delegate" destination="GL0-sg-eXP" id="Psa-5N-dby"/>
+                                    <outlet property="dataSource" destination="GL0-sg-eXP" id="gA2-3d-mb9"/>
+                                    <outlet property="delegate" destination="GL0-sg-eXP" id="C9h-gD-Yce"/>
                                 </connections>
                             </collectionView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MI7-LF-L8R">
-                                <rect key="frame" x="20" y="72" width="560" height="136"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="136" id="LhS-Yg-nWB"/>
-                                </constraints>
-                            </mapView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="GJw-6m-YbJ"/>
-                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="S7d-ny-aDB" secondAttribute="bottom" constant="20" id="KJR-Lj-7K9"/>
-                            <constraint firstItem="S7d-ny-aDB" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="28" id="bJ2-pn-go8"/>
+                            <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="8" id="KkG-ip-gDl"/>
+                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="20" id="TtT-og-UtD"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="dAG-dc-oxU"/>
-                            <constraint firstItem="S7d-ny-aDB" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="iWS-cx-jDs"/>
-                            <constraint firstItem="S7d-ny-aDB" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="ptk-MY-0vT"/>
+                            <constraint firstItem="gje-dq-ZN7" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="iY8-Jt-Qe6"/>
+                            <constraint firstItem="gje-dq-ZN7" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="j8U-zI-nT1"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="qcl-Gn-71I"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="S7d-ny-aDB" id="iiD-1D-Zh0"/>
+                        <outlet property="collectionView" destination="gje-dq-ZN7" id="oLX-ns-a98"/>
+                        <outlet property="layout" destination="GdW-dR-34m" id="tyX-dA-51P"/>
                         <outlet property="mapView" destination="MI7-LF-L8R" id="9Md-ic-QDy"/>
                     </connections>
                 </viewController>

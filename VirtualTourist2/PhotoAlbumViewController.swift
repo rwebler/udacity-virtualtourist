@@ -10,15 +10,16 @@ import Foundation
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet weak var collectionView: UICollectionView?
+    @IBOutlet weak var layout: UICollectionViewFlowLayout!
     @IBOutlet weak var mapView: MKMapView!
 
     var pinCenterCoordinate: CLLocationCoordinate2D?
     var photos: [UIImage]?
-    var dataSource: UICollectionViewDataSource?
-    var delegate: UICollectionViewDelegate?
-    @IBOutlet weak var collectionView: UICollectionView?
+    var screenSize: CGRect!
+    var side: CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +37,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         {
             photos!.append(placeholder!)
         }
-        
-        dataSource = self
-        delegate = self
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        collectionView?.reloadData()
+        screenSize = UIScreen.mainScreen().bounds
+        side = screenSize.width / 4
+
+        collectionView!.backgroundColor = UIColor.whiteColor()
+        collectionView!.reloadData()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -51,7 +50,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        print("In cellForItemAtIndexPath")
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("thumbnail", forIndexPath: indexPath) as! PhotoAlbumCollectionViewCell
+        cell.layer.borderColor = UIColor.blackColor().CGColor
+        cell.layer.borderWidth = 0.5
+
         let photo = photos![indexPath.row]
         
         // Send meme data to cell
@@ -63,5 +67,21 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath)
     {
         print("In didSelectItemAtIndexPath")
+    }
+    
+    
+    // DelegateFlowLayout
+
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            
+            return CGSize(width: side, height: side)
+    }
+    
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsetsZero
     }
 }

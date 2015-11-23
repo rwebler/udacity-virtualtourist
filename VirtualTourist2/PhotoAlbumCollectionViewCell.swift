@@ -13,6 +13,7 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 
     func load(photo: UIImage) {
+        print(photo)
         imageView.image = photo
     }
     
