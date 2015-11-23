@@ -16,6 +16,7 @@
 		F7EE83AC1C022AFD005D1F2C /* VirtualTourist2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83AB1C022AFD005D1F2C /* VirtualTourist2UITests.swift */; };
 		F7EE83BA1C022B1E005D1F2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7EE83B91C022B1E005D1F2C /* MapKit.framework */; };
 		F7EE83BC1C02529C005D1F2C /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83BB1C02529C005D1F2C /* PhotoAlbumViewController.swift */; };
+		F7EE83BE1C027FE3005D1F2C /* MapProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE83BD1C027FE3005D1F2C /* MapProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		F7EE83AD1C022AFD005D1F2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7EE83B91C022B1E005D1F2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F7EE83BB1C02529C005D1F2C /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
+		F7EE83BD1C027FE3005D1F2C /* MapProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapProperties.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				F7EE83941C022AFD005D1F2C /* LaunchScreen.storyboard */,
 				F7EE83971C022AFD005D1F2C /* Info.plist */,
 				F7EE83BB1C02529C005D1F2C /* PhotoAlbumViewController.swift */,
+				F7EE83BD1C027FE3005D1F2C /* MapProperties.swift */,
 			);
 			path = VirtualTourist2;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7EE838E1C022AFD005D1F2C /* ViewController.swift in Sources */,
+				F7EE83BE1C027FE3005D1F2C /* MapProperties.swift in Sources */,
 				F7EE838C1C022AFD005D1F2C /* AppDelegate.swift in Sources */,
 				F7EE83BC1C02529C005D1F2C /* PhotoAlbumViewController.swift in Sources */,
 			);

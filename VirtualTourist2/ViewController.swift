@@ -16,24 +16,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     var pins = [MKPointAnnotation]()
     var currentPin = MKPointAnnotation()
+    var mapProperties: MapProperties?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let latitude = defaults.doubleForKey("latitude") as? Double {
-            if let longitude = defaults.doubleForKey("longitude") as? Double {
-                let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                mapView.setCenterCoordinate(coordinate, animated: true)
-                if let latitudeDelta = defaults.doubleForKey("latitudeDelta") as? Double {
-                    if let longitudeDelta = defaults.doubleForKey("longitudeDelta") as? Double {
-                        let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
-                        let region = MKCoordinateRegionMake(coordinate, span)
-                        mapView.setRegion(region, animated: true)
-                    }
-                }
-            }
+
+        if let data = NSUserDefaults.standardUserDefaults().objectForKey(MapProperties.Keys.MapProperties) as? NSData {
+            mapProperties = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? MapProperties
+            let center = CLLocationCoordinate2D(latitude: mapProperties!.latitude, longitude: mapProperties!.longitude)
+            mapView.setCenterCoordinate(center, animated: true)
+            mapView.setRegion(MKCoordinateRegionMake(center, MKCoordinateSpanMake(mapProperties!.latitudeDelta, mapProperties!.longitudeDelta)), animated: true)
+        } else {
+            mapProperties = MapProperties(latitude: 37.331711, longitude:  -122.030184, latitudeDelta:  1.0, longitudeDelta: 1.0)
         }
     }
     
@@ -87,11 +82,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print("In regionDidChangeAnimated")
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setDouble(mapView.centerCoordinate.latitude, forKey: "latitude")
-        defaults.setDouble(mapView.centerCoordinate.longitude, forKey: "longitude")
-        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "latitudeDelta")
-        defaults.setDouble(mapView.region.span.longitudeDelta, forKey: "longitudeDelta")
+        mapProperties!.change(mapView)
+        let data = NSKeyedArchiver.archivedDataWithRootObject(mapProperties!)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey: MapProperties.Keys.MapProperties)
     }
     
     func getMapViewCoordinateFromPoint(point: CGPoint) -> CLLocationCoordinate2D {
