@@ -27,8 +27,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
             let center = CLLocationCoordinate2D(latitude: mapProperties!.latitude, longitude: mapProperties!.longitude)
             mapView.setCenterCoordinate(center, animated: true)
             mapView.setRegion(MKCoordinateRegionMake(center, MKCoordinateSpanMake(mapProperties!.latitudeDelta, mapProperties!.longitudeDelta)), animated: true)
-        } else {
-            mapProperties = MapProperties(latitude: 37.331711, longitude:  -122.030184, latitudeDelta:  1.0, longitudeDelta: 1.0)
         }
     }
     

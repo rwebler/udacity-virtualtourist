@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F70685611C033670009711DE /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70685601C033670009711DE /* PhotoAlbumCollectionViewCell.swift */; };
+		F70685631C03E06C009711DE /* FlickrFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70685621C03E06C009711DE /* FlickrFinder.swift */; };
 		F7EE838C1C022AFD005D1F2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE838B1C022AFD005D1F2C /* AppDelegate.swift */; };
 		F7EE838E1C022AFD005D1F2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE838D1C022AFD005D1F2C /* ViewController.swift */; };
 		F7EE83911C022AFD005D1F2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7EE838F1C022AFD005D1F2C /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		F70685601C033670009711DE /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		F70685621C03E06C009711DE /* FlickrFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrFinder.swift; sourceTree = "<group>"; };
 		F7EE83881C022AFC005D1F2C /* VirtualTourist2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7EE838B1C022AFD005D1F2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7EE838D1C022AFD005D1F2C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		F7EE838A1C022AFC005D1F2C /* VirtualTourist2 */ = {
 			isa = PBXGroup;
 			children = (
+				F70685621C03E06C009711DE /* FlickrFinder.swift */,
 				F7EE838B1C022AFD005D1F2C /* AppDelegate.swift */,
 				F7EE838D1C022AFD005D1F2C /* ViewController.swift */,
 				F7EE838F1C022AFD005D1F2C /* Main.storyboard */,
@@ -278,6 +281,7 @@
 				F7EE838E1C022AFD005D1F2C /* ViewController.swift in Sources */,
 				F70685611C033670009711DE /* PhotoAlbumCollectionViewCell.swift in Sources */,
 				F7EE83BE1C027FE3005D1F2C /* MapProperties.swift in Sources */,
+				F70685631C03E06C009711DE /* FlickrFinder.swift in Sources */,
 				F7EE838C1C022AFD005D1F2C /* AppDelegate.swift in Sources */,
 				F7EE83BC1C02529C005D1F2C /* PhotoAlbumViewController.swift in Sources */,
 			);

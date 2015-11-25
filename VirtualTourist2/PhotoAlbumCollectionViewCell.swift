@@ -12,9 +12,9 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
 
-    func load(photo: UIImage) {
+    func load(photo: Photo) {
         print(photo)
-        imageView.image = photo
+        imageView.image = photo.thumbnail
     }
     
 }

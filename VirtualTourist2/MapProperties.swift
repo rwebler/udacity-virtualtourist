@@ -32,12 +32,13 @@ class MapProperties: NSObject, NSCoding {
     }
     
     required convenience init?(coder decoder: NSCoder) {
-        guard let latitude = decoder.decodeDoubleForKey(Keys.Latitude) as? Double,
-        let longitude = decoder.decodeDoubleForKey(Keys.Longitude) as? Double,
-        let latitudeDelta = decoder.decodeDoubleForKey(Keys.LatitudeDelta) as? Double,
-        let longitudeDelta = decoder.decodeDoubleForKey(Keys.LongitudeDelta) as? Double
+        guard let latitude = decoder.decodeObjectForKey(Keys.Latitude) as? Double,
+        let longitude = decoder.decodeObjectForKey(Keys.Longitude) as? Double,
+        let latitudeDelta = decoder.decodeObjectForKey(Keys.LatitudeDelta) as? Double,
+        let longitudeDelta = decoder.decodeObjectForKey(Keys.LongitudeDelta) as? Double
             else {
-                return nil
+                self.init(latitude: 0, longitude: 0, latitudeDelta: 50, longitudeDelta: 50)
+                return
         }
         
         self.init(latitude: latitude, longitude: longitude, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)

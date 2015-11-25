@@ -17,7 +17,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var mapView: MKMapView!
 
     var pinCenterCoordinate: CLLocationCoordinate2D?
-    var photos: [UIImage]?
+    var photos: [Photo]?
     var screenSize: CGRect!
     var side: CGFloat!
     
@@ -30,22 +30,43 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             pin.coordinate = center
             mapView.addAnnotation(pin)
         }
-        
-        let placeholder = UIImage(named: "Placeholder")
-        photos = [UIImage]()
-        for _ in 0...29
-        {
-            photos!.append(placeholder!)
+
+        let finder = FlickrFinder()
+        finder.search(self.pinCenterCoordinate!) {
+            success, photos, error in
+            
+            if (success) {
+                // Update the collection on the main thread
+                print ("\(finder.photos.count) thumbs")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.photos = finder.photos
+                    self.collectionView!.reloadData()
+                }
+            } else {
+                print(error)
+            }
         }
+
         screenSize = UIScreen.mainScreen().bounds
         side = screenSize.width / 4
 
         collectionView!.backgroundColor = UIColor.whiteColor()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         collectionView!.reloadData()
     }
     
+    func photoForIndexPath(indexPath: NSIndexPath) -> Photo {
+        return photos![indexPath.row]
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos!.count
+        print("In numberOfItemsInSection")
+        if let photos = photos {
+            return photos.count
+        }
+        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -58,7 +79,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
         let photo = photos![indexPath.row]
         
-        // Send meme data to cell
+        // Send data to cell
         cell.load(photo)
         
         return cell
