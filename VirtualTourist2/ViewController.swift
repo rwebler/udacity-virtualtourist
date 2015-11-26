@@ -149,6 +149,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             let photoAlbumVC = segue.destinationViewController as! PhotoAlbumViewController
             let pin = sender as! MKAnnotationView
             photoAlbumVC.pinCenterCoordinate = getMapViewCoordinateFromPoint(pin.center)
+            photoAlbumVC.page = 1
             
             let backItem = UIBarButtonItem()
             backItem.title = "Back to map"

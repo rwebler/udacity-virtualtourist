@@ -114,14 +114,29 @@
                                     <outlet property="delegate" destination="GL0-sg-eXP" id="C9h-gD-Yce"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvv-Q6-SR6">
+                                <rect key="frame" x="246" y="562" width="108" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="108" id="21f-bI-mg9"/>
+                                    <constraint firstAttribute="height" constant="30" id="u0o-4M-vnD"/>
+                                </constraints>
+                                <state key="normal" title="Replace images"/>
+                                <connections>
+                                    <action selector="replaceImages:" destination="GL0-sg-eXP" eventType="touchUpInside" id="I0e-4N-N3Q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="56" id="9Nb-2P-mMZ"/>
+                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="Wvv-Q6-SR6" secondAttribute="bottom" constant="8" id="CfY-Xa-vwM"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="GJw-6m-YbJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Wvv-Q6-SR6" secondAttribute="trailing" constant="226" id="JMZ-e5-Tcc"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="8" id="KkG-ip-gDl"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="dAG-dc-oxU"/>
+                            <constraint firstItem="Wvv-Q6-SR6" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" constant="226" id="gzx-W2-uzU"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="iY8-Jt-Qe6"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="j8U-zI-nT1"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="qcl-Gn-71I"/>
@@ -131,6 +146,7 @@
                         <outlet property="collectionView" destination="gje-dq-ZN7" id="oLX-ns-a98"/>
                         <outlet property="layout" destination="GdW-dR-34m" id="tyX-dA-51P"/>
                         <outlet property="mapView" destination="MI7-LF-L8R" id="9Md-ic-QDy"/>
+                        <outlet property="replaceButton" destination="Wvv-Q6-SR6" id="INa-eR-oQP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jN6-iM-Yeo" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -38,6 +38,12 @@ func == (lhs: Photo, rhs: Photo) -> Bool {
 
 class FlickrFinder {
     
+    var page: Int64
+    
+    init (page: Int64?) {
+        self.page = page ?? 1
+    }
+    
     var photos = [Photo]()
     
     func search(coordinate: CLLocationCoordinate2D, completionHandler: (success: Bool, photos: [Photo]?, error: String?) -> Void) {
@@ -51,7 +57,7 @@ class FlickrFinder {
             "extras": EXTRAS,
             "format": DATA_FORMAT,
             "nojsoncallback": NO_JSON_CALLBACK,
-            "page": 1,
+            "page": String(page),
             "per_page": PER_PAGE
         ]
         

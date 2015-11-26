@@ -12,11 +12,13 @@ import MapKit
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet weak var replaceButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView?
     @IBOutlet weak var layout: UICollectionViewFlowLayout!
     @IBOutlet weak var mapView: MKMapView!
 
     var pinCenterCoordinate: CLLocationCoordinate2D?
+    var page: Int64?
     var photos: [Photo]?
     var screenSize: CGRect!
     var side: CGFloat!
@@ -31,7 +33,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             mapView.addAnnotation(pin)
         }
 
-        let finder = FlickrFinder()
+        screenSize = UIScreen.mainScreen().bounds
+        side = screenSize.width / 4
+
+        collectionView!.backgroundColor = UIColor.whiteColor()
+        
+        loadImages()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        collectionView!.reloadData()
+    }
+    
+    func loadImages() {
+        let finder = FlickrFinder(page: page!)
         finder.search(self.pinCenterCoordinate!) {
             success, photos, error in
             
@@ -39,26 +54,32 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 // Update the collection on the main thread
                 print ("\(finder.photos.count) thumbs")
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.photos = finder.photos
+                    var loadedPhotos = finder.photos
+                    if finder.photos.count < PER_PAGE {
+                        let placeholder = Photo(photoID: "placeholder", url: "placeholder")
+                        placeholder.thumbnail = UIImage(named: "Placeholder")
+                        for _ in finder.photos.count...PER_PAGE {
+                            loadedPhotos.append(placeholder)
+                        }
+                    }
+                    self.photos = loadedPhotos
                     self.collectionView!.reloadData()
                 }
             } else {
                 print(error)
             }
         }
-
-        screenSize = UIScreen.mainScreen().bounds
-        side = screenSize.width / 4
-
-        collectionView!.backgroundColor = UIColor.whiteColor()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        collectionView!.reloadData()
     }
     
     func photoForIndexPath(indexPath: NSIndexPath) -> Photo {
         return photos![indexPath.row]
+    }
+    
+    @IBAction func replaceImages(sender: UIButton) {
+        print("In replace images")
+        page!++
+        self.photos = nil
+        loadImages()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
