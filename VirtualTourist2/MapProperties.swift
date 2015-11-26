@@ -25,23 +25,14 @@ class MapProperties: NSObject, NSCoding {
     var longitudeDelta: Double
     
     init (latitude: Double, longitude: Double, latitudeDelta: Double, longitudeDelta: Double) {
-        self.latitude = latitude
-        self.longitude = longitude
-        self.latitudeDelta = latitudeDelta
-        self.longitudeDelta = longitudeDelta
+        self.latitude = latitude ?? 0.0
+        self.longitude = longitude ?? 0.0
+        self.latitudeDelta = latitudeDelta ?? 50.0
+        self.longitudeDelta = longitudeDelta ?? 50.0
     }
     
     required convenience init?(coder decoder: NSCoder) {
-        guard let latitude = decoder.decodeObjectForKey(Keys.Latitude) as? Double,
-        let longitude = decoder.decodeObjectForKey(Keys.Longitude) as? Double,
-        let latitudeDelta = decoder.decodeObjectForKey(Keys.LatitudeDelta) as? Double,
-        let longitudeDelta = decoder.decodeObjectForKey(Keys.LongitudeDelta) as? Double
-            else {
-                self.init(latitude: 0, longitude: 0, latitudeDelta: 50, longitudeDelta: 50)
-                return
-        }
-        
-        self.init(latitude: latitude, longitude: longitude, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        self.init(latitude: decoder.decodeDoubleForKey(Keys.Latitude), longitude: decoder.decodeDoubleForKey(Keys.Longitude), latitudeDelta: decoder.decodeDoubleForKey(Keys.LatitudeDelta), longitudeDelta: decoder.decodeDoubleForKey(Keys.LongitudeDelta))
     }
     
     func encodeWithCoder(aCoder: NSCoder) {

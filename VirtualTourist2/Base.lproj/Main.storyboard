@@ -31,7 +31,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="B5V-q8-rYh"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="B5V-q8-rYh">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="HOb-Wx-khc">
+                            <connections>
+                                <action selector="togglePinEditing:" destination="BYZ-38-t0r" id="2g8-38-Nyz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="longPressGestureRecognizer" destination="0jw-7c-Je7" id="YTO-nZ-Nsi"/>
                         <outlet property="mapView" destination="RIu-7t-aLF" id="8K9-sQ-9aP"/>
@@ -47,10 +53,10 @@
             </objects>
             <point key="canvasLocation" x="1057" y="313"/>
         </scene>
-        <!--Photo Album View Controller-->
+        <!--Photo Album-->
         <scene sceneID="rg3-rN-57P">
             <objects>
-                <viewController storyboardIdentifier="PhotoAlbumViewController" id="GL0-sg-eXP" customClass="PhotoAlbumViewController" customModule="VirtualTourist2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumViewController" title="Photo Album" id="GL0-sg-eXP" customClass="PhotoAlbumViewController" customModule="VirtualTourist2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JLW-pf-hM8"/>
                         <viewControllerLayoutGuide type="bottom" id="wXz-zX-Tvm"/>
@@ -59,7 +65,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MI7-LF-L8R">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MI7-LF-L8R">
                                 <rect key="frame" x="20" y="72" width="560" height="136"/>
                                 <animations/>
                                 <constraints>
@@ -67,7 +73,7 @@
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gje-dq-ZN7">
-                                <rect key="frame" x="20" y="216" width="560" height="364"/>
+                                <rect key="frame" x="20" y="216" width="560" height="328"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GdW-dR-34m">
                                     <size key="itemSize" width="100" height="100"/>
@@ -112,9 +118,9 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="56" id="9Nb-2P-mMZ"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="GJw-6m-YbJ"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="8" id="KkG-ip-gDl"/>
-                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="20" id="TtT-og-UtD"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="dAG-dc-oxU"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="iY8-Jt-Qe6"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="j8U-zI-nT1"/>

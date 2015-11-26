@@ -89,11 +89,11 @@ class FlickrFinder {
                                         let photo = Photo(photoID: imageId!, url: imageUrlString!)
                                         photo.thumbnail = UIImage(data: imageData)
                                         self.photos.append(photo)
+                                        completionHandler(success: true, photos: self.photos, error: nil)
                                     })
                                 } else {
                                     print("\(imageUrlString!) is not a valid image")
                                 }
-                                completionHandler(success: true, photos: self.photos, error: nil)
                             }
                         } else {
                             print("Cant find key 'photo' in \(photosDictionary)")
