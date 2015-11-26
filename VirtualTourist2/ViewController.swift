@@ -66,8 +66,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBAction func togglePinEditing(sender: UIBarButtonItem) {
         if (arePinsEditable) {
             view.frame.origin.y += deleteLabel!.frame.height
+            sender.title = "Edit"
         } else {
             view.frame.origin.y -= deleteLabel!.frame.height
+            sender.title = "Stop editing"
         }
         arePinsEditable = !arePinsEditable
     }
@@ -96,7 +98,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         print("In didSelectAnnotationView")
         if arePinsEditable {
-            
+            mapView.removeAnnotation(view.annotation!)
         } else {
             performSegueWithIdentifier("displayPhotoAlbum", sender: view)
         }
