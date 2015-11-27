@@ -21,21 +21,6 @@ let DATA_FORMAT = "json"
 let NO_JSON_CALLBACK = "1"
 let PER_PAGE = 30
 
-class Photo: Equatable {
-    var thumbnail: UIImage?
-    let photoID: String
-    let url: String
-  
-    init (photoID: String, url: String) {
-        self.photoID = photoID
-        self.url = url
-    }
-}
-
-func == (lhs: Photo, rhs: Photo) -> Bool {
-    return lhs.photoID == rhs.photoID
-}
-
 class FlickrFinder {
     
     var page: Int64
