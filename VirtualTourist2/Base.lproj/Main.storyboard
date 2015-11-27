@@ -69,7 +69,7 @@
                                 <rect key="frame" x="20" y="72" width="560" height="136"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="136" id="LhS-Yg-nWB"/>
+                                    <constraint firstAttribute="height" constant="136" id="mZ8-Bd-tZd"/>
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gje-dq-ZN7">
@@ -118,8 +118,8 @@
                                 <rect key="frame" x="246" y="562" width="108" height="30"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="108" id="21f-bI-mg9"/>
-                                    <constraint firstAttribute="height" constant="30" id="u0o-4M-vnD"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZNt-rI-Dao"/>
+                                    <constraint firstAttribute="width" constant="108" id="oHM-Og-I4J"/>
                                 </constraints>
                                 <state key="normal" title="Replace images"/>
                                 <connections>
@@ -130,16 +130,15 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="56" id="9Nb-2P-mMZ"/>
-                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="Wvv-Q6-SR6" secondAttribute="bottom" constant="8" id="CfY-Xa-vwM"/>
-                            <constraint firstItem="MI7-LF-L8R" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="GJw-6m-YbJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Wvv-Q6-SR6" secondAttribute="trailing" constant="226" id="JMZ-e5-Tcc"/>
-                            <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="8" id="KkG-ip-gDl"/>
-                            <constraint firstItem="MI7-LF-L8R" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="dAG-dc-oxU"/>
-                            <constraint firstItem="Wvv-Q6-SR6" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" constant="226" id="gzx-W2-uzU"/>
-                            <constraint firstItem="gje-dq-ZN7" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="iY8-Jt-Qe6"/>
-                            <constraint firstItem="gje-dq-ZN7" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="j8U-zI-nT1"/>
-                            <constraint firstItem="MI7-LF-L8R" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="qcl-Gn-71I"/>
+                            <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="8" id="6nc-ro-vYI"/>
+                            <constraint firstItem="MI7-LF-L8R" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="8oC-wS-lvc"/>
+                            <constraint firstItem="gje-dq-ZN7" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="Ltx-eV-y5p"/>
+                            <constraint firstItem="Wvv-Q6-SR6" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="18" id="Mbv-1a-8Mc"/>
+                            <constraint firstItem="Wvv-Q6-SR6" firstAttribute="centerX" secondItem="Q6G-yT-iVm" secondAttribute="centerX" id="Q24-fo-4I2"/>
+                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="Wvv-Q6-SR6" secondAttribute="bottom" constant="8" id="S50-EO-xgs"/>
+                            <constraint firstItem="gje-dq-ZN7" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="Z9p-wY-PSJ"/>
+                            <constraint firstItem="MI7-LF-L8R" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="ggd-1U-52C"/>
+                            <constraint firstItem="MI7-LF-L8R" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="rQu-vu-zez"/>
                         </constraints>
                     </view>
                     <connections>
