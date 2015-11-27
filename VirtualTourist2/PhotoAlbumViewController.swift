@@ -78,7 +78,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBAction func replaceImages(sender: UIButton) {
         print("In replace images")
         page!++
-        self.photos = nil
+        photos = nil
         loadImages()
     }
     
@@ -109,6 +109,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath)
     {
         print("In didSelectItemAtIndexPath")
+        photos?.removeAtIndex(indexPath.row)
+        self.collectionView!.reloadData()
     }
     
     
