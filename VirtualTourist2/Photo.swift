@@ -18,11 +18,11 @@ struct Caches {
 class Photo: NSManagedObject {
     struct Keys {
         static let PhotoId = "photoId"
-        static let Url = "url"
+        static let Path = "path"
     }
     
     @NSManaged var photoId: String
-    @NSManaged var url: String
+    @NSManaged var path: String
     @NSManaged var pin: Pin?
     
     // Standard Core Data init method.
@@ -35,20 +35,20 @@ class Photo: NSManagedObject {
         
         let entity =  NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         
-        super.init(entity: entity,insertIntoManagedObjectContext: context)
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
         
         photoId = dictionary[Keys.PhotoId] as! String
-        url = dictionary[Keys.Url] as! String
+        path = dictionary[Keys.Path] as! String
     }
     
     var thumbnail: UIImage? {
         
         get {
-            return Caches.imageCache.imageWithIdentifier(photoId)
+            return Caches.imageCache.imageWithPath(path)
         }
         
         set {
-            Caches.imageCache.storeImage(newValue, withIdentifier: photoId)
+            Caches.imageCache.storeImage(newValue, withPath: path)
         }
     }
 }

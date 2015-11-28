@@ -13,6 +13,7 @@
 		F72543111C086A51000911C5 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72543101C086A51000911C5 /* Photo.swift */; };
 		F72543131C086C0C000911C5 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72543121C086C0C000911C5 /* ImageCache.swift */; };
 		F72543161C087787000911C5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F72543141C087787000911C5 /* Model.xcdatamodeld */; };
+		F72543181C08F8E7000911C5 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72543171C08F8E7000911C5 /* CoreDataStackManager.swift */; };
 		F7EE838C1C022AFD005D1F2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE838B1C022AFD005D1F2C /* AppDelegate.swift */; };
 		F7EE838E1C022AFD005D1F2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE838D1C022AFD005D1F2C /* ViewController.swift */; };
 		F7EE83911C022AFD005D1F2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7EE838F1C022AFD005D1F2C /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		F72543101C086A51000911C5 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F72543121C086C0C000911C5 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		F72543151C087787000911C5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		F72543171C08F8E7000911C5 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		F7EE83881C022AFC005D1F2C /* VirtualTourist2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7EE838B1C022AFD005D1F2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7EE838D1C022AFD005D1F2C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		F7EE838A1C022AFC005D1F2C /* VirtualTourist2 */ = {
 			isa = PBXGroup;
 			children = (
+				F72543171C08F8E7000911C5 /* CoreDataStackManager.swift */,
 				F70685621C03E06C009711DE /* FlickrFinder.swift */,
 				F7EE838B1C022AFD005D1F2C /* AppDelegate.swift */,
 				F7EE838D1C022AFD005D1F2C /* ViewController.swift */,
@@ -292,6 +295,7 @@
 			files = (
 				F72543111C086A51000911C5 /* Photo.swift in Sources */,
 				F725430F1C086421000911C5 /* Pin.swift in Sources */,
+				F72543181C08F8E7000911C5 /* CoreDataStackManager.swift in Sources */,
 				F7EE838E1C022AFD005D1F2C /* ViewController.swift in Sources */,
 				F72543131C086C0C000911C5 /* ImageCache.swift in Sources */,
 				F70685611C033670009711DE /* PhotoAlbumCollectionViewCell.swift in Sources */,

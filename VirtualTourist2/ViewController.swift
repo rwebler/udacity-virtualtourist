@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class ViewController: UIViewController, MKMapViewDelegate {
 
@@ -19,6 +20,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var currentPin = MKPointAnnotation()
     var mapProperties: MapProperties?
     var arePinsEditable = false
+    
+    // MARK: - Core Data Convenience. This will be useful for fetching. And for adding and saving objects as well.
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +57,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func reload() {
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        do {
+            let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin]
+            for pin in fetchResults! {
+                
+                let lat = CLLocationDegrees(pin.latitude)
+                let long = CLLocationDegrees(pin.longitude)
+                
+                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = coordinate
+                
+                print(annotation)
+                
+                pins.append(annotation)
+            }
+            
+            mapView.addAnnotations(pins)
+        } catch {}
+        
     }
     
     func displayError(errorString: String?) {
@@ -69,7 +97,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             sender.title = "Edit"
         } else {
             view.frame.origin.y -= deleteLabel!.frame.height
-            sender.title = "Stop editing"
+            sender.title = "Done"
         }
         arePinsEditable = !arePinsEditable
     }
@@ -98,7 +126,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         print("In didSelectAnnotationView")
         if arePinsEditable {
-            mapView.removeAnnotation(view.annotation!)
+            let fetchRequest = NSFetchRequest(entityName: "Pin")
+            let coordinate = view.annotation!.coordinate
+            let filter = NSPredicate(format:"latitude = %@ AND longitude = %@", String(coordinate.latitude), String(coordinate.longitude))
+            fetchRequest.predicate = filter
+            
+            do {
+                let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin]
+                let pin = fetchResults![0]
+                sharedContext.deleteObject(pin)
+                mapView.removeAnnotation(view.annotation!)
+            } catch {}
         } else {
             performSegueWithIdentifier("displayPhotoAlbum", sender: view)
         }
@@ -137,7 +175,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
         case .Ended:
             print("Ended")
             currentPin.coordinate = coordinate
-            pins.append(currentPin)
+            
+            let entity =  NSEntityDescription.entityForName("Pin",
+                inManagedObjectContext:sharedContext)
+            
+            let pin = NSManagedObject(entity: entity!,
+                insertIntoManagedObjectContext: sharedContext)
+            
+            pin.setValue(coordinate.latitude, forKey: Pin.Keys.Latitude)
+            pin.setValue(coordinate.longitude, forKey: Pin.Keys.Longitude)
+            
+            do {
+                try sharedContext.save()
+                pins.append(currentPin)
+            } catch {}
         default:
             print(sender.state)
             return

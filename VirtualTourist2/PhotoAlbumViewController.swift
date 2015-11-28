@@ -56,7 +56,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 dispatch_async(dispatch_get_main_queue()) {
                     var loadedPhotos = finder.photos
                     if finder.photos.count < PER_PAGE {
-                        let placeholder = Photo(photoID: "placeholder", url: "placeholder")
+                        let placeholder = Photo(
                         placeholder.thumbnail = UIImage(named: "Placeholder")
                         for _ in finder.photos.count...PER_PAGE {
                             loadedPhotos.append(placeholder)

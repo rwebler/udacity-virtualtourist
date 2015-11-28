@@ -13,22 +13,20 @@ class ImageCache {
     
     // MARK: - Retreiving images
     
-    func imageWithIdentifier(identifier: String?) -> UIImage? {
+    func imageWithPath(path: String?) -> UIImage? {
         
-        // If the identifier is nil, or empty, return nil
-        if identifier == nil || identifier! == "" {
+        // If the path is nil, or empty, return nil
+        if path == nil || path! == "" {
             return nil
         }
         
-        let path = pathForIdentifier(identifier!)
-        
         // First try the memory cache
-        if let image = inMemoryCache.objectForKey(path) as? UIImage {
+        if let image = inMemoryCache.objectForKey(path!) as? UIImage {
             return image
         }
         
         // Next Try the hard drive
-        if let data = NSData(contentsOfFile: path) {
+        if let data = NSData(contentsOfFile: path!) {
             return UIImage(data: data)
         }
         
@@ -37,9 +35,7 @@ class ImageCache {
     
     // MARK: - Saving images
     
-    func storeImage(image: UIImage?, withIdentifier identifier: String) {
-        let path = pathForIdentifier(identifier)
-        
+    func storeImage(image: UIImage?, withPath path: String) {
         // If the image is nil, remove images from the cache
         if image == nil {
             inMemoryCache.removeObjectForKey(path)

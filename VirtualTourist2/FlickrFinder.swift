@@ -77,7 +77,7 @@ class FlickrFinder {
                                 /* 8 - If an image exists at the url, set the image */
                                 if let imageData = NSData(contentsOfURL: imageURL!) {
                                     dispatch_async(dispatch_get_main_queue(), {
-                                        let photo = Photo(photoID: imageId!, url: imageUrlString!)
+                                        let photo = Photo(photoId: imageId!)
                                         photo.thumbnail = UIImage(data: imageData)
                                         self.photos.append(photo)
                                         completionHandler(success: true, photos: self.photos, error: nil)
