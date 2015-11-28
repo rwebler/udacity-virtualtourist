@@ -131,14 +131,18 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if arePinsEditable {
             let fetchRequest = NSFetchRequest(entityName: "Pin")
             let coordinate = view.annotation!.coordinate
-            let filter = NSPredicate(format:"latitude = %@ AND longitude = %@", String(coordinate.latitude), String(coordinate.longitude))
+            let filter = NSPredicate(format:"abs(latitude - %f) < 0.0001 AND abs(longitude - %f) < 0.0001", coordinate.latitude, coordinate.longitude)
+            print(filter)
             fetchRequest.predicate = filter
             
             do {
-                let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin]
-                let pin = fetchResults![0]
-                sharedContext.deleteObject(pin)
-                mapView.removeAnnotation(view.annotation!)
+                if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                    print(fetchResults.count)
+                    let pin = fetchResults[0]
+                    sharedContext.deleteObject(pin)
+                    mapView.removeAnnotation(view.annotation!)
+                    try sharedContext.save()
+                }
             } catch {}
         } else {
             performSegueWithIdentifier("displayPhotoAlbum", sender: view)
