@@ -28,19 +28,17 @@ class FlickrFinder {
         self.page = page ?? NSNumber(longLong: 1)
     }
     
-    var photos = [Viewable]()
-    
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
-    func search(coordinate: CLLocationCoordinate2D, completionHandler: (success: Bool, photos: [Viewable]?, error: String?) -> Void) {
+    func search(pin: Pin, completionHandler: (success: Bool, pin: Pin?, error: String?) -> Void) {
         /* 2 - API method arguments */
         let methodArguments = [
             "method": METHOD_NAME,
             "api_key": API_KEY,
-            "lat": coordinate.latitude,
-            "lon": coordinate.longitude,
+            "lat": pin.coordinate!.latitude,
+            "lon": pin.coordinate!.longitude,
             "tags": TAGS,
             "extras": EXTRAS,
             "format": DATA_FORMAT,
@@ -61,7 +59,7 @@ class FlickrFinder {
             (data: NSData?,  response: NSURLResponse?, downloadError: NSError?) in
             if let error = downloadError {
                 print("Could not complete the request \(error)")
-                completionHandler(success: false, photos: nil, error: "Could not complete the request \(error)")
+                completionHandler(success: false, pin: nil, error: "Could not complete the request \(error)")
             } else {
                 /* 5 - Success! Parse the data */
                 do {
@@ -82,9 +80,9 @@ class FlickrFinder {
                                     let dictionary:[String: AnyObject] = [Photo.Keys.PhotoId: imageId!, Photo.Keys.Path: imageUrlString!]
                                     let photo = Photo(dictionary: dictionary, context: self.sharedContext)
                                     photo.thumbnail = UIImage(data: imageData)
-                                    self.photos.append(photo)
+                                    photo.pin = pin
                                     dispatch_async(dispatch_get_main_queue(), {
-                                        completionHandler(success: true, photos: self.photos, error: nil)
+                                        completionHandler(success: true, pin: pin, error: nil)
                                     })
                                 } else {
                                     print("\(imageUrlString!) is not a valid image")
@@ -92,15 +90,15 @@ class FlickrFinder {
                             }
                         } else {
                             print("Can't find key 'photo' in \(photosDictionary)")
-                            completionHandler(success: false, photos: nil, error: "Cant find key 'photo' in \(photosDictionary)")
+                            completionHandler(success: false, pin: nil, error: "Cant find key 'photo' in \(photosDictionary)")
                         }
                     } else {
                         print("Can't find key 'photos' in \(parsedResult)")
-                        completionHandler(success: false, photos: nil, error: "Cant find key 'photos' in \(parsedResult)")
+                        completionHandler(success: false, pin: nil, error: "Cant find key 'photos' in \(parsedResult)")
                     }
                 } catch {
                     print("Can't parse JSON from \(data)")
-                    completionHandler(success: false, photos: nil, error: "Cant parse JSON from \(data)")
+                    completionHandler(success: false, pin: nil, error: "Cant parse JSON from \(data)")
                 }
             }
         }

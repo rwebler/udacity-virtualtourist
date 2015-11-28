@@ -55,7 +55,7 @@ class Photo: NSManagedObject, Viewable {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
         photoId = dictionary[Keys.PhotoId] as! String
-        path = dictionary[Keys.Path] as! String
+        path = Caches.imageCache.pathForIdentifier(dictionary[Keys.Path] as! String)
     }
     
     var thumbnail: UIImage? {

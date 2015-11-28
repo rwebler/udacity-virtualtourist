@@ -37,6 +37,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
             let center = CLLocationCoordinate2D(latitude: mapProperties!.latitude, longitude: mapProperties!.longitude)
             mapView.setCenterCoordinate(center, animated: true)
             mapView.setRegion(MKCoordinateRegionMake(center, MKCoordinateSpanMake(mapProperties!.latitudeDelta, mapProperties!.longitudeDelta)), animated: true)
+        } else {
+            //set to current map properties
+            let center = mapView.centerCoordinate
+            let span = mapView.region.span
+            mapProperties = MapProperties(latitude: center.latitude, longitude: center.longitude, latitudeDelta: span.latitudeDelta, longitudeDelta: span.longitudeDelta)
         }
     }
     
@@ -140,10 +145,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print("In regionDidChangeAnimated")
-        mapProperties!.change(mapView)
-        let data = NSKeyedArchiver.archivedDataWithRootObject(mapProperties!)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey: MapProperties.Keys.MapProperties)
-        print(mapProperties!.latitude)
+        if let mapProperties = mapProperties {
+            mapProperties.change(mapView)
+            let data = NSKeyedArchiver.archivedDataWithRootObject(mapProperties)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey: MapProperties.Keys.MapProperties)
+            print(mapProperties.latitude)
+        }
+        
     }
     
     func getMapViewCoordinateFromPoint(point: CGPoint) -> CLLocationCoordinate2D {

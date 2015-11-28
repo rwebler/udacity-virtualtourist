@@ -25,10 +25,10 @@ class MapProperties: NSObject, NSCoding {
     var longitudeDelta: Double
     
     init (latitude: Double, longitude: Double, latitudeDelta: Double, longitudeDelta: Double) {
-        self.latitude = latitude ?? 0.0
-        self.longitude = longitude ?? 0.0
-        self.latitudeDelta = latitudeDelta ?? 50.0
-        self.longitudeDelta = longitudeDelta ?? 50.0
+        self.latitude = latitude
+        self.longitude = longitude
+        self.latitudeDelta = latitudeDelta
+        self.longitudeDelta = longitudeDelta
     }
     
     required convenience init?(coder decoder: NSCoder) {

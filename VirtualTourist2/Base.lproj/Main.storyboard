@@ -143,7 +143,6 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="gje-dq-ZN7" id="oLX-ns-a98"/>
-                        <outlet property="layout" destination="GdW-dR-34m" id="tyX-dA-51P"/>
                         <outlet property="mapView" destination="MI7-LF-L8R" id="9Md-ic-QDy"/>
                         <outlet property="replaceButton" destination="Wvv-Q6-SR6" id="INa-eR-oQP"/>
                     </connections>

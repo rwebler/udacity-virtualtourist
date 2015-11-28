@@ -41,26 +41,21 @@ class Pin: NSManagedObject {
     
     func loadPhotos() {
         finder = FlickrFinder(page: pageNumber)
-        finder!.search(coordinate!) {
-            success, photos, error in
+        finder!.search(self) {
+            success, pin, error in
             
             if (success) {
-                // Update the collection on the main thread
-                print ("\(self.finder!.photos.count) thumbs")
-                dispatch_async(dispatch_get_main_queue()) {
-                    var loadedPhotos = self.finder!.photos
-                    if self.finder!.photos.count < PER_PAGE {
-                        let placeholder = Placeholder()
-                        for _ in self.finder!.photos.count...PER_PAGE {
-                            loadedPhotos.append(placeholder)
-                        }
-                    }
-                    self.photos = loadedPhotos as! [Photo]
-                }
+                print(pin)
             } else {
                 print(error)
             }
         }
+    }
+    
+    func loadNewPage() {
+        let newPageNumber: Int64 = pageNumber.longLongValue + 1
+        pageNumber = NSNumber(longLong: newPageNumber)
+        loadPhotos()
     }
     
     var coordinate: CLLocationCoordinate2D? {
