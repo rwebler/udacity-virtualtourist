@@ -42,10 +42,9 @@ class Pin: NSManagedObject {
     func loadPhotos() {
         finder = FlickrFinder(page: pageNumber)
         finder!.search(self) {
-            success, pin, error in
-            
+            success, error in
             if (success) {
-                print(pin)
+                print(self.photos.count)
             } else {
                 print(error)
             }

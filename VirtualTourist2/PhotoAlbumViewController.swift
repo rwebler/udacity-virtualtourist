@@ -96,7 +96,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func configureCell(cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
         
+        print("in configureCellatIndexPath \(indexPath)")
+        
         if let photo = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Photo {
+            print(photo.thumbnail)
             cell.photo = photo
             cell.imageView.image = photo.thumbnail
         } else {
@@ -115,6 +118,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         let sectionInfo = self.fetchedResultsController.sections![section]
         
         print("number Of Cells: \(sectionInfo.numberOfObjects)")
+        if sectionInfo.numberOfObjects == PER_PAGE {
+            do {
+                try sharedContext.save()
+            } catch let error as NSError  {
+                print("Could not save \(error), \(error.userInfo)")
+            }
+        }
         return sectionInfo.numberOfObjects
     }
     
@@ -130,6 +140,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoAlbumCollectionViewCell
+        
+        print(cell)
         
         
     }
