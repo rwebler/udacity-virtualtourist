@@ -19,7 +19,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
     var pinCenterCoordinate: CLLocationCoordinate2D?
     var page: Int64?
-    var photos: [Photo]?
+    var photos: [Viewable]?
     var screenSize: CGRect!
     var side: CGFloat!
     
@@ -56,8 +56,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 dispatch_async(dispatch_get_main_queue()) {
                     var loadedPhotos = finder.photos
                     if finder.photos.count < PER_PAGE {
-                        let placeholder = Photo(
-                        placeholder.thumbnail = UIImage(named: "Placeholder")
+                        let placeholder = Placeholder()
                         for _ in finder.photos.count...PER_PAGE {
                             loadedPhotos.append(placeholder)
                         }
@@ -71,7 +70,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func photoForIndexPath(indexPath: NSIndexPath) -> Photo {
+    func photoForIndexPath(indexPath: NSIndexPath) -> Viewable {
         return photos![indexPath.row]
     }
     

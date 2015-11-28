@@ -59,24 +59,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func reload() {
         let fetchRequest = NSFetchRequest(entityName: "Pin")
         do {
-            let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin]
-            for pin in fetchResults! {
-                
-                let lat = CLLocationDegrees(pin.latitude)
-                let long = CLLocationDegrees(pin.longitude)
-                
-                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = coordinate
-                
-                print(annotation)
-                
-                pins.append(annotation)
+            if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for obj in fetchResults {
+                    
+                    let lat = obj.valueForKey(Pin.Keys.Latitude) as! CLLocationDegrees
+                    let long = obj.valueForKey(Pin.Keys.Longitude) as! CLLocationDegrees
+                    
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = coordinate
+                    
+                    print(annotation)
+                    
+                    pins.append(annotation)
+                }
             }
             
             mapView.addAnnotations(pins)
-        } catch {}
+        } catch let error as NSError  {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
         
     }
     
@@ -188,7 +191,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
             do {
                 try sharedContext.save()
                 pins.append(currentPin)
-            } catch {}
+            } catch let error as NSError  {
+                print("Could not save \(error), \(error.userInfo)")
+            }
         default:
             print(sender.state)
             return

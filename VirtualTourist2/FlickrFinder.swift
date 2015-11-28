@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
+import CoreData
 
 //https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=e587331c2d4dcbbcb513da68d2556ba3&tags=travel%2Cvacation%2Choliday&lat=37.331711&lon=-122.030184&extras=url_s&per_page=30&page=1&format=json&nojsoncallback=1
 
@@ -29,9 +30,13 @@ class FlickrFinder {
         self.page = page ?? 1
     }
     
-    var photos = [Photo]()
+    var photos = [Viewable]()
     
-    func search(coordinate: CLLocationCoordinate2D, completionHandler: (success: Bool, photos: [Photo]?, error: String?) -> Void) {
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    func search(coordinate: CLLocationCoordinate2D, completionHandler: (success: Bool, photos: [Viewable]?, error: String?) -> Void) {
         /* 2 - API method arguments */
         let methodArguments = [
             "method": METHOD_NAME,
@@ -76,10 +81,11 @@ class FlickrFinder {
                                 
                                 /* 8 - If an image exists at the url, set the image */
                                 if let imageData = NSData(contentsOfURL: imageURL!) {
+                                    let dictionary:[String: AnyObject] = [Photo.Keys.PhotoId: imageId!, Photo.Keys.Path: imageUrlString!]
+                                    let photo = Photo(dictionary: dictionary, context: self.sharedContext)
+                                    photo.thumbnail = UIImage(data: imageData)
+                                    self.photos.append(photo)
                                     dispatch_async(dispatch_get_main_queue(), {
-                                        let photo = Photo(photoId: imageId!)
-                                        photo.thumbnail = UIImage(data: imageData)
-                                        self.photos.append(photo)
                                         completionHandler(success: true, photos: self.photos, error: nil)
                                     })
                                 } else {
@@ -87,15 +93,15 @@ class FlickrFinder {
                                 }
                             }
                         } else {
-                            print("Cant find key 'photo' in \(photosDictionary)")
+                            print("Can't find key 'photo' in \(photosDictionary)")
                             completionHandler(success: false, photos: nil, error: "Cant find key 'photo' in \(photosDictionary)")
                         }
                     } else {
-                        print("Cant find key 'photos' in \(parsedResult)")
+                        print("Can't find key 'photos' in \(parsedResult)")
                         completionHandler(success: false, photos: nil, error: "Cant find key 'photos' in \(parsedResult)")
                     }
                 } catch {
-                    print("Cant parse JSON from \(data)")
+                    print("Can't parse JSON from \(data)")
                     completionHandler(success: false, photos: nil, error: "Cant parse JSON from \(data)")
                 }
             }

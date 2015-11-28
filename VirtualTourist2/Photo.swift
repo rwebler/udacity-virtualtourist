@@ -15,7 +15,23 @@ struct Caches {
     static let imageCache = ImageCache()
 }
 
-class Photo: NSManagedObject {
+protocol Viewable {
+    var thumbnail: UIImage? { get set }
+}
+
+class Placeholder: Viewable {
+    var thumbnail: UIImage? {
+        
+        get {
+            return UIImage(named: "Placeholder")
+        }
+        
+        set {
+        }
+    }
+}
+
+class Photo: NSManagedObject, Viewable {
     struct Keys {
         static let PhotoId = "photoId"
         static let Path = "path"
@@ -24,6 +40,7 @@ class Photo: NSManagedObject {
     @NSManaged var photoId: String
     @NSManaged var path: String
     @NSManaged var pin: Pin?
+    var url: String?
     
     // Standard Core Data init method.
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
