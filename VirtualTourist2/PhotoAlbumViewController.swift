@@ -17,15 +17,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var layout: UICollectionViewFlowLayout!
     @IBOutlet weak var mapView: MKMapView!
 
-    var pinCenterCoordinate: CLLocationCoordinate2D?
-    var page: Int64?
+    var pin: Pin?
     var photos: [Viewable]?
     var screenSize: CGRect!
     var side: CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let center = pinCenterCoordinate {
+        if let center = pin!.coordinate {
             mapView.setCenterCoordinate(center, animated: true)
             mapView.setRegion(MKCoordinateRegionMake(center, MKCoordinateSpanMake(0.01, 0.01)), animated: true)
             let pin = MKPointAnnotation()
@@ -46,8 +45,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func loadImages() {
-        let finder = FlickrFinder(page: page!)
-        finder.search(self.pinCenterCoordinate!) {
+        let finder = FlickrFinder(page: pin?.pageNumber)
+        finder.search((pin?.coordinate)!) {
             success, photos, error in
             
             if (success) {
@@ -76,7 +75,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBAction func replaceImages(sender: UIButton) {
         print("In replace images")
-        page!++
+        let value:Int64 = (pin?.pageNumber.longLongValue)! + 1
+        pin?.pageNumber = NSNumber(longLong: value)
         photos = nil
         loadImages()
     }

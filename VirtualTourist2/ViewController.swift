@@ -59,16 +59,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func reload() {
         let fetchRequest = NSFetchRequest(entityName: "Pin")
         do {
-            if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
-                for obj in fetchResults {
-                    
-                    let lat = obj.valueForKey(Pin.Keys.Latitude) as! CLLocationDegrees
-                    let long = obj.valueForKey(Pin.Keys.Longitude) as! CLLocationDegrees
-                    
-                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                    
+            if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin] {
+                for pin in fetchResults {
+
                     let annotation = MKPointAnnotation()
-                    annotation.coordinate = coordinate
+                    annotation.coordinate = pin.coordinate!
                     
                     print(annotation)
                     
@@ -129,21 +124,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         print("In didSelectAnnotationView")
         if arePinsEditable {
-            let fetchRequest = NSFetchRequest(entityName: "Pin")
-            let coordinate = view.annotation!.coordinate
-            let filter = NSPredicate(format:"abs(latitude - %f) < 0.0001 AND abs(longitude - %f) < 0.0001", coordinate.latitude, coordinate.longitude)
-            print(filter)
-            fetchRequest.predicate = filter
-            
-            do {
-                if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
-                    print(fetchResults.count)
-                    let pin = fetchResults[0]
+            if let pin = selectPinByCoordinate(view.annotation!.coordinate) {
+                do {
                     sharedContext.deleteObject(pin)
                     mapView.removeAnnotation(view.annotation!)
                     try sharedContext.save()
+                } catch let error as NSError  {
+                    print("Could not delete \(error), \(error.userInfo)")
                 }
-            } catch {}
+            }
         } else {
             performSegueWithIdentifier("displayPhotoAlbum", sender: view)
         }
@@ -183,18 +172,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
             print("Ended")
             currentPin.coordinate = coordinate
             
-            let entity =  NSEntityDescription.entityForName("Pin",
-                inManagedObjectContext:sharedContext)
+            let dictionary: [String: AnyObject] = [
+                Pin.Keys.Latitude: coordinate.latitude,
+                Pin.Keys.Longitude: coordinate.longitude
+            ]
             
-            let pin = NSManagedObject(entity: entity!,
-                insertIntoManagedObjectContext: sharedContext)
-            
-            pin.setValue(coordinate.latitude, forKey: Pin.Keys.Latitude)
-            pin.setValue(coordinate.longitude, forKey: Pin.Keys.Longitude)
+            let pin = Pin(dictionary: dictionary, context: sharedContext)
             
             do {
                 try sharedContext.save()
                 pins.append(currentPin)
+                pin.loadPhotos()
             } catch let error as NSError  {
                 print("Could not save \(error), \(error.userInfo)")
             }
@@ -207,14 +195,33 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if (segue.identifier == "displayPhotoAlbum") {
             let photoAlbumVC = segue.destinationViewController as! PhotoAlbumViewController
-            let pin = sender as! MKAnnotationView
-            photoAlbumVC.pinCenterCoordinate = getMapViewCoordinateFromPoint(pin.center)
-            photoAlbumVC.page = 1
-            
-            let backItem = UIBarButtonItem()
-            backItem.title = "Back to map"
-            navigationItem.backBarButtonItem = backItem
+            let view = sender as! MKAnnotationView
+            if let pin = selectPinByCoordinate(view.annotation!.coordinate) {
+                photoAlbumVC.pin = pin
+                
+                let backItem = UIBarButtonItem()
+                backItem.title = "Back to map"
+                navigationItem.backBarButtonItem = backItem
+            }
         }
+    }
+    
+    func selectPinByCoordinate(coordinate: CLLocationCoordinate2D) -> Pin? {
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        let filter = NSPredicate(format:"abs(latitude - %f) < 0.0001 AND abs(longitude - %f) < 0.0001", coordinate.latitude, coordinate.longitude)
+        print(filter)
+        fetchRequest.predicate = filter
+        
+        do {
+            if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin] {
+                print(fetchResults.count)
+                let pin = fetchResults[0]
+                return pin
+            }
+        } catch let error as NSError  {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
     }
 
 }

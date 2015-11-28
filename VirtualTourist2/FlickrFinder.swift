@@ -11,8 +11,6 @@ import UIKit
 import MapKit
 import CoreData
 
-//https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=e587331c2d4dcbbcb513da68d2556ba3&tags=travel%2Cvacation%2Choliday&lat=37.331711&lon=-122.030184&extras=url_s&per_page=30&page=1&format=json&nojsoncallback=1
-
 let BASE_URL = "https://api.flickr.com/services/rest/"
 let METHOD_NAME = "flickr.photos.search"
 let API_KEY = "8c9cf6597e14d1cca163d920fa22ade7"
@@ -24,10 +22,10 @@ let PER_PAGE = 30
 
 class FlickrFinder {
     
-    var page: Int64
+    var page: NSNumber
     
-    init (page: Int64?) {
-        self.page = page ?? 1
+    init (page: NSNumber?) {
+        self.page = page ?? NSNumber(longLong: 1)
     }
     
     var photos = [Viewable]()
@@ -47,7 +45,7 @@ class FlickrFinder {
             "extras": EXTRAS,
             "format": DATA_FORMAT,
             "nojsoncallback": NO_JSON_CALLBACK,
-            "page": String(page),
+            "page": String(page.longLongValue),
             "per_page": PER_PAGE
         ]
         

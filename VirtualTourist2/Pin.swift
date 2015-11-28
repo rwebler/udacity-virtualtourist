@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import MapKit
 
 class Pin: NSManagedObject {
     struct Keys {
@@ -18,8 +19,9 @@ class Pin: NSManagedObject {
     
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
-    @NSManaged var pageNumber: Int64
+    @NSManaged var pageNumber: NSNumber
     @NSManaged var photos: [Photo]
+    var finder: FlickrFinder?
     
     // Standard Core Data init method.
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -35,6 +37,36 @@ class Pin: NSManagedObject {
         
         latitude = dictionary[Keys.Latitude] as! Double
         longitude = dictionary[Keys.Longitude] as! Double
-        pageNumber = dictionary[Keys.PageNumber] as! Int64
+    }
+    
+    func loadPhotos() {
+        finder = FlickrFinder(page: pageNumber)
+        finder!.search(coordinate!) {
+            success, photos, error in
+            
+            if (success) {
+                // Update the collection on the main thread
+                print ("\(self.finder!.photos.count) thumbs")
+                dispatch_async(dispatch_get_main_queue()) {
+                    var loadedPhotos = self.finder!.photos
+                    if self.finder!.photos.count < PER_PAGE {
+                        let placeholder = Placeholder()
+                        for _ in self.finder!.photos.count...PER_PAGE {
+                            loadedPhotos.append(placeholder)
+                        }
+                    }
+                    self.photos = loadedPhotos as! [Photo]
+                }
+            } else {
+                print(error)
+            }
+        }
+    }
+    
+    var coordinate: CLLocationCoordinate2D? {
+        
+        get {
+            return CLLocationCoordinate2DMake(latitude, longitude)
+        }
     }
 }
