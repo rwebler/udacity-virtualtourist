@@ -13,20 +13,22 @@ class ImageCache {
     
     // MARK: - Retreiving images
     
-    func imageWithPath(path: String?) -> UIImage? {
+    func imageWithIdentifier(identifier: String?) -> UIImage? {
         
-        // If the path is nil, or empty, return nil
-        if path == nil || path! == "" {
+        // If the identifier is nil, or empty, return nil
+        if identifier == nil || identifier! == "" {
             return nil
         }
         
+        let path = pathForIdentifier(identifier!)
+        
         // First try the memory cache
-        if let image = inMemoryCache.objectForKey(path!) as? UIImage {
+        if let image = inMemoryCache.objectForKey(path) as? UIImage {
             return image
         }
         
         // Next Try the hard drive
-        if let data = NSData(contentsOfFile: path!) {
+        if let data = NSData(contentsOfFile: path) {
             return UIImage(data: data)
         }
         
@@ -35,10 +37,13 @@ class ImageCache {
     
     // MARK: - Saving images
     
-    func storeImage(image: UIImage?, withPath path: String) {
+    func storeImage(image: UIImage?, withIdentifier identifier: String) {
+        let path = pathForIdentifier(identifier)
+        
         // If the image is nil, remove images from the cache
         if image == nil {
-            deleteImageWithPath(path)
+            deleteImageWithIdentifier(identifier)
+            
             return
         }
         
@@ -46,18 +51,21 @@ class ImageCache {
         inMemoryCache.setObject(image!, forKey: path)
         
         // And in documents directory
-        let data = UIImageJPEGRepresentation(image!, 1.0)!
+        let data = UIImageJPEGRepresentation(image!, 0.9)!
         data.writeToFile(path, atomically: true)
     }
     
     //MARK: - Deleting images
-    func deleteImageWithPath(path: String) {
+    func deleteImageWithIdentifier(identifier: String) {
+        let path = pathForIdentifier(identifier)
+
         inMemoryCache.removeObjectForKey(path)
         
         do {
             try NSFileManager.defaultManager().removeItemAtPath(path)
         } catch _ {}
     }
+
     
     // MARK: - Helper
     

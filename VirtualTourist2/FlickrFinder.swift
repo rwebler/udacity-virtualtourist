@@ -21,13 +21,7 @@ let NO_JSON_CALLBACK = "1"
 let PER_PAGE = 30
 
 class FlickrFinder {
-    
-    var page: NSNumber
-    
-    init (page: NSNumber?) {
-        self.page = page ?? NSNumber(longLong: 1)
-    }
-    
+
     func search(pin: Pin, completionHandler: (success: Bool, dict:[String: AnyObject]?, error: String?) -> Void) {
         /* 2 - API method arguments */
         let methodArguments = [
@@ -39,7 +33,7 @@ class FlickrFinder {
             "extras": EXTRAS,
             "format": DATA_FORMAT,
             "nojsoncallback": NO_JSON_CALLBACK,
-            "page": String(page.longLongValue),
+            "page": String(pin.pageNumber.longLongValue),
             "per_page": PER_PAGE
         ]
         
@@ -65,19 +59,13 @@ class FlickrFinder {
                         if let photoArray = photosDictionary.valueForKey("photo") as? [[String: AnyObject]] {
 
                             print("\(photoArray.count) photos")
+                            pin.maxPhotos = photoArray.count
                             for photoDictionary in photoArray {
                                 /* 7 - Get the image url and id */
                                 let imageUrlString = photoDictionary["url_s"] as? String
                                 let imageId = photoDictionary["id"] as? String
-                                let imageURL = NSURL(string: imageUrlString!)
-                                
-                                /* 8 - If an image exists at the url, set the image */
-                                if let imageData = NSData(contentsOfURL: imageURL!) {
-                                    let dictionary:[String: AnyObject] = [Photo.Keys.PhotoId: imageId!, Photo.Keys.Path: imageId!, "imageData": imageData, "count": photoArray.count]
-                                    completionHandler(success: true, dict: dictionary, error: nil)
-                                } else {
-                                    print("\(imageUrlString!) is not a valid image")
-                                }
+                                let dictionary:[String: AnyObject] = [Photo.Keys.PhotoId: imageId!, Photo.Keys.Path: imageUrlString!]
+                                completionHandler(success: true, dict: dictionary, error: nil)
                             }
                         } else {
                             print("Can't find key 'photo' in \(photosDictionary)")
@@ -96,6 +84,32 @@ class FlickrFinder {
         
         /* 9 - Resume (execute) the task */
         task.resume()
+    }
+    
+    // MARK: - Task method to download images
+    
+    func taskForImage(filePath: String, completionHandler: (imageData: NSData?, error: NSError?) ->  Void) -> NSURLSessionTask {
+        
+        let session = NSURLSession.sharedSession()
+        
+        let url = NSURL(string: filePath)
+        
+        print(url)
+        
+        let request = NSURLRequest(URL: url!)
+        
+        let task = session.dataTaskWithRequest(request) {data, response, downloadError in
+            
+            if let error = downloadError {
+                completionHandler(imageData: nil, error: error)
+            } else {
+                completionHandler(imageData: data, error: nil)
+            }
+        }
+        
+        task.resume()
+        
+        return task
     }
     
     /* Helper function: Given a dictionary of parameters, convert to a string for a url */
@@ -117,5 +131,16 @@ class FlickrFinder {
         }
         
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+    }
+    
+    // MARK: - Shared Instance
+    
+    class func sharedInstance() -> FlickrFinder {
+        
+        struct Singleton {
+            static var sharedInstance = FlickrFinder()
+        }
+        
+        return Singleton.sharedInstance
     }
 }

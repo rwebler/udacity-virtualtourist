@@ -98,16 +98,44 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         print("in configureCell:atIndexPath \(indexPath)")
         
+        var image = UIImage(named: "Placeholder")
+        
+        cell.imageView!.image = nil
+        
         if let photo = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Photo {
-            if let thumbnail = photo.thumbnail {
-                print(thumbnail)
-                cell.photo = photo
-                cell.imageView.image = thumbnail
+            // Set the Photo
+            
+            if photo.thumbnail != nil {
+                image = photo.thumbnail
             } else {
-                print("placeholder")
-                cell.imageView.image = UIImage(named: "Placeholder")
+                // Start the task that will eventually download the image
+                let task = FlickrFinder.sharedInstance().taskForImage(photo.path!) { data, error in
+                    
+                    if let error = error {
+                        print("Download error: \(error.localizedDescription)")
+                    }
+                    
+                    if let data = data {
+                        // Craete the image
+                        let image = UIImage(data: data)
+                        
+                        // update the model, so that the infrmation gets cashed
+                        photo.thumbnail = image
+                        
+                        // update the cell later, on the main thread
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.imageView!.image = image
+                        }
+                    }
+                }
+                
+                // This is the custom property on this cell. See TaskCancelingTableViewCell.swift for details.
+                cell.taskToCancelifCellIsReused = task
             }
         }
+        
+        cell.imageView!.image = image
     }
     
     

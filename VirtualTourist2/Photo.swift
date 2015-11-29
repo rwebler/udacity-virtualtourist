@@ -22,17 +22,12 @@ class Photo: NSManagedObject {
     }
     
     @NSManaged var photoId: String
-    @NSManaged var path: String
+    @NSManaged var path: String?
     @NSManaged var pin: Pin?
     
     // Standard Core Data init method.
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
-        if let imageData = NSData(contentsOfFile: path) {
-            thumbnail = UIImage(data: imageData)
-        } else {
-            print("\(path) is not a valid image string")
-        }
     }
     
     // The two argument init method
@@ -43,24 +38,24 @@ class Photo: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
         photoId = dictionary[Keys.PhotoId] as! String
-        path = Caches.imageCache.pathForIdentifier(dictionary[Keys.Path] as! String)
+        path = dictionary[Keys.Path] as? String
     }
     
     var thumbnail: UIImage? {
         
         get {
-            return Caches.imageCache.imageWithPath(path)
+            return Caches.imageCache.imageWithIdentifier(photoId)
         }
         
         set {
-            Caches.imageCache.storeImage(newValue, withPath: path)
+            Caches.imageCache.storeImage(newValue, withIdentifier: photoId)
         }
     }
     
     override func prepareForDeletion() {
         
         //Delete the associated image file when the Photo managed object is deleted.
-        Caches.imageCache.deleteImageWithPath(path)
+        Caches.imageCache.deleteImageWithIdentifier(photoId)
     }
 }
 

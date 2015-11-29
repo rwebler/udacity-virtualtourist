@@ -87,6 +87,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         if let trip = self.currentTrip {
             for pin in trip.pins {
+                print(pin.coordinate!)
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = pin.coordinate!
                 
@@ -94,6 +95,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 
                 pins.append(annotation)
             }
+            
+            mapView.addAnnotations(pins)
         }
     }
     
@@ -201,6 +204,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 ]
                 
                 let pin = Pin(dictionary: dictionary, context: sharedContext)
+                pin.trip = currentTrip
                 
                 do {
                     try sharedContext.save()
@@ -239,8 +243,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         do {
             if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin] {
                 print(fetchResults.count)
-                let pin = fetchResults[0]
-                return pin
+                if fetchResults.count >= 0 {
+                    let pin = fetchResults[0]
+                    return pin
+                }
             }
         } catch let error as NSError  {
             print("Could not fetch \(error), \(error.userInfo)")

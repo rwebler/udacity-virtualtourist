@@ -21,7 +21,7 @@ class Pin: NSManagedObject {
     @NSManaged var longitude: Double
     @NSManaged var pageNumber: NSNumber
     @NSManaged var photos: [Photo]
-    var finder: FlickrFinder?
+    @NSManaged var trip: Trip?
     var maxPhotos: Int?
     
     // Standard Core Data init method.
@@ -42,17 +42,15 @@ class Pin: NSManagedObject {
     }
     
     func loadPhotos() {
-        finder = FlickrFinder(page: pageNumber)
-        finder!.search(self) {
+        let finder = FlickrFinder.sharedInstance()
+        finder.search(self) {
             success, dict, error in
             if (success) {
                 print(self.photos.count)
                 if let dictionary = dict {
                     dispatch_async(dispatch_get_main_queue(), {
                         let photo = Photo(dictionary: dictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)
-                        photo.thumbnail = UIImage(data: dictionary["imageData"] as! NSData)
                         photo.pin = self
-                        self.maxPhotos = dictionary["count"] as? Int
                     })
                 }
             } else {
