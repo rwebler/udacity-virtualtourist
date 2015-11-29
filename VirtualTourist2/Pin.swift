@@ -27,7 +27,6 @@ class Pin: NSManagedObject {
     // Standard Core Data init method.
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
-        maxPhotos = PER_PAGE
     }
     
     // The two argument init method

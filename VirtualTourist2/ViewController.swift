@@ -227,6 +227,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
             if let pin = selectPinByCoordinate(view.annotation!.coordinate) {
                 photoAlbumVC.pin = pin
                 
+                //update photo count
+                if pin.photos.count > 0 {
+                    pin.maxPhotos = pin.photos.count
+                } else {
+                    pin.maxPhotos = PER_PAGE
+                }
+                
                 let backItem = UIBarButtonItem()
                 backItem.title = "Back to map"
                 navigationItem.backBarButtonItem = backItem

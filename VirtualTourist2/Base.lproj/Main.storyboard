@@ -131,6 +131,16 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No images" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kro-1n-K6f">
+                                <rect key="frame" x="259" y="566" width="82" height="21"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="82" id="l7j-Vi-0t1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -138,6 +148,7 @@
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="MI7-LF-L8R" secondAttribute="bottom" constant="8" id="6nc-ro-vYI"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="leading" secondItem="Q6G-yT-iVm" secondAttribute="leadingMargin" id="8oC-wS-lvc"/>
                             <constraint firstItem="r92-De-Zxx" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="DyA-q8-nK3"/>
+                            <constraint firstItem="wXz-zX-Tvm" firstAttribute="top" secondItem="kro-1n-K6f" secondAttribute="bottom" constant="13" id="FLb-Jg-fid"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="top" secondItem="r92-De-Zxx" secondAttribute="bottom" constant="8" id="HnU-JH-lOK"/>
                             <constraint firstItem="gje-dq-ZN7" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="Ltx-eV-y5p"/>
                             <constraint firstItem="Wvv-Q6-SR6" firstAttribute="top" secondItem="gje-dq-ZN7" secondAttribute="bottom" constant="18" id="Mbv-1a-8Mc"/>
@@ -148,11 +159,13 @@
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="ggd-1U-52C"/>
                             <constraint firstItem="r92-De-Zxx" firstAttribute="trailing" secondItem="Q6G-yT-iVm" secondAttribute="trailingMargin" id="qef-rN-Ods"/>
                             <constraint firstItem="MI7-LF-L8R" firstAttribute="top" secondItem="JLW-pf-hM8" secondAttribute="bottom" constant="8" id="rQu-vu-zez"/>
+                            <constraint firstItem="kro-1n-K6f" firstAttribute="centerX" secondItem="gje-dq-ZN7" secondAttribute="centerX" id="sNv-1K-0ii"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="gje-dq-ZN7" id="oLX-ns-a98"/>
                         <outlet property="mapView" destination="MI7-LF-L8R" id="9Md-ic-QDy"/>
+                        <outlet property="noImageLabel" destination="kro-1n-K6f" id="Nye-UB-CjA"/>
                         <outlet property="replaceButton" destination="Wvv-Q6-SR6" id="INa-eR-oQP"/>
                     </connections>
                 </viewController>

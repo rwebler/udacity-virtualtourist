@@ -18,6 +18,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
     
+    @IBOutlet weak var noImageLabel: UILabel!
     @IBOutlet weak var replaceButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mapView: MKMapView!
@@ -39,6 +40,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
         replaceButton.enabled = false
+        replaceButton.hidden = false
+        noImageLabel.hidden = true
     }
     
     // Layout the collection view
@@ -150,7 +153,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         let sectionInfo = self.fetchedResultsController.sections![section]
         
         print("number Of Cells: \(sectionInfo.numberOfObjects)")
-        if sectionInfo.numberOfObjects == pin!.maxPhotos! {
+        if sectionInfo.numberOfObjects == 0 {
+            replaceButton.hidden = true
+            noImageLabel.hidden = false
+            
+        } else if sectionInfo.numberOfObjects == pin!.maxPhotos! {
             do {
                 try sharedContext.save()
                 replaceButton.enabled = true
@@ -182,6 +189,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 do {
                     sharedContext.deleteObject(photo)
                     cell.removeFromSuperview()
+                    pin?.maxPhotos = (pin?.maxPhotos)! - 1
                     try sharedContext.save()
                 } catch let error as NSError  {
                     print("Could not delete \(error), \(error.userInfo)")
