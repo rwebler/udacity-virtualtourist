@@ -12,6 +12,8 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
+    var photo: Photo?
+    
     // The property uses a property observer. Any time its
     // value is set it canceles the previous NSURLSessionTask
     

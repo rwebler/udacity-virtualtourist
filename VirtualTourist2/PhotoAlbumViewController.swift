@@ -103,7 +103,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         cell.imageView!.image = nil
         
         if let photo = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Photo {
+            
             // Set the Photo
+            cell.photo = photo
             
             if photo.thumbnail != nil {
                 image = photo.thumbnail
@@ -116,14 +118,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                     }
                     
                     if let data = data {
-                        // Craete the image
+                        // Create the image
                         let image = UIImage(data: data)
                         
-                        // update the model, so that the infrmation gets cashed
+                        // update the model, so that the information gets cached
                         photo.thumbnail = image
                         
                         // update the cell later, on the main thread
-                        
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.imageView!.image = image
                         }
@@ -171,11 +172,23 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
+        print("In collectionView:didSelectItemAtIndexPath")
+        
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoAlbumCollectionViewCell
         
         print(cell)
-        
-        
+        if replaceButton.enabled {
+            if let photo = cell.photo {
+                do {
+                    sharedContext.deleteObject(photo)
+                    cell.removeFromSuperview()
+                    try sharedContext.save()
+                } catch let error as NSError  {
+                    print("Could not delete \(error), \(error.userInfo)")
+                }
+            }
+        }
+        self.collectionView!.reloadData()
     }
     
     // MARK: - Fetched Results Controller Delegate
