@@ -161,6 +161,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             do {
                 try sharedContext.save()
                 replaceButton.enabled = true
+                replaceButton.hidden = false
+                noImageLabel.hidden = true
             } catch let error as NSError  {
                 print("Could not save \(error), \(error.userInfo)")
             }
