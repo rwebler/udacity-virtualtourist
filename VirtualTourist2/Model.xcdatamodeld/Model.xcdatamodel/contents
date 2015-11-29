@@ -12,7 +12,7 @@
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Photo" inverseName="pin" inverseEntity="Photo" syncable="YES"/>
         <relationship name="trip" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Trip" inverseName="pins" inverseEntity="Trip" syncable="YES"/>
     </entity>
-    <entity name="Trip" syncable="YES">
+    <entity name="Trip" representedClassName=".Trip" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="pins" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Pin" inverseName="trip" inverseEntity="Pin" syncable="YES"/>
     </entity>

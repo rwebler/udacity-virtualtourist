@@ -27,6 +27,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
+    //Extra entity: Trip, a set of related Pins
+    var currentTrip: Trip? {
+        let fetchRequest = NSFetchRequest(entityName: "Trip")
+        //currently fetching only the 'Default' trip
+        fetchRequest.predicate = NSPredicate(format: "name == %@", "Default")
+        do {
+            if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Trip] {
+                if fetchResults.count > 0 {
+                    let trip = fetchResults[0]
+                    return trip
+                } else {
+                    let trip = Trip(dictionary: [Trip.Keys.Name: "Default"], context: sharedContext)
+                    try sharedContext.save()
+                    return trip
+                }
+            }
+        } catch let error as NSError  {
+            print("Could not fetch/save \(error), \(error.userInfo)")
+        }
+        return nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
@@ -62,25 +84,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func reload() {
-        let fetchRequest = NSFetchRequest(entityName: "Pin")
-        do {
-            if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin] {
-                for pin in fetchResults {
-
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = pin.coordinate!
-                    
-                    print(annotation)
-                    
-                    pins.append(annotation)
-                }
-            }
-            
-            mapView.addAnnotations(pins)
-        } catch let error as NSError  {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
         
+        if let trip = self.currentTrip {
+            for pin in trip.pins {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = pin.coordinate!
+                
+                print(annotation)
+                
+                pins.append(annotation)
+            }
+        }
     }
     
     func displayError(errorString: String?) {
