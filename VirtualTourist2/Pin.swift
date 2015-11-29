@@ -22,10 +22,12 @@ class Pin: NSManagedObject {
     @NSManaged var pageNumber: NSNumber
     @NSManaged var photos: [Photo]
     var finder: FlickrFinder?
+    var maxPhotos: Int?
     
     // Standard Core Data init method.
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        maxPhotos = PER_PAGE
     }
     
     // The two argument init method
@@ -42,9 +44,17 @@ class Pin: NSManagedObject {
     func loadPhotos() {
         finder = FlickrFinder(page: pageNumber)
         finder!.search(self) {
-            success, error in
+            success, dict, error in
             if (success) {
                 print(self.photos.count)
+                if let dictionary = dict {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        let photo = Photo(dictionary: dictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)
+                        photo.thumbnail = UIImage(data: dictionary["imageData"] as! NSData)
+                        photo.pin = self
+                        self.maxPhotos = dictionary["count"] as? Int
+                    })
+                }
             } else {
                 print(error)
             }
@@ -54,6 +64,14 @@ class Pin: NSManagedObject {
     func loadNewPage() {
         let newPageNumber: Int64 = pageNumber.longLongValue + 1
         pageNumber = NSNumber(longLong: newPageNumber)
+        for photo in photos {
+            CoreDataStackManager.sharedInstance().managedObjectContext.deleteObject(photo)
+        }
+        do {
+            try CoreDataStackManager.sharedInstance().managedObjectContext.save()
+        } catch let error as NSError  {
+            print("Could not delete \(error), \(error.userInfo)")
+        }
         loadPhotos()
     }
     

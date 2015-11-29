@@ -15,23 +15,7 @@ struct Caches {
     static let imageCache = ImageCache()
 }
 
-protocol Viewable {
-    var thumbnail: UIImage? { get set }
-}
-
-class Placeholder: Viewable {
-    var thumbnail: UIImage? {
-        
-        get {
-            return UIImage(named: "Placeholder")
-        }
-        
-        set {
-        }
-    }
-}
-
-class Photo: NSManagedObject, Viewable {
+class Photo: NSManagedObject {
     struct Keys {
         static let PhotoId = "photoId"
         static let Path = "path"
@@ -40,11 +24,15 @@ class Photo: NSManagedObject, Viewable {
     @NSManaged var photoId: String
     @NSManaged var path: String
     @NSManaged var pin: Pin?
-    var url: String?
     
     // Standard Core Data init method.
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        if let imageData = NSData(contentsOfFile: path) {
+            thumbnail = UIImage(data: imageData)
+        } else {
+            print("\(path) is not a valid image string")
+        }
     }
     
     // The two argument init method
@@ -67,6 +55,12 @@ class Photo: NSManagedObject, Viewable {
         set {
             Caches.imageCache.storeImage(newValue, withPath: path)
         }
+    }
+    
+    override func prepareForDeletion() {
+        
+        //Delete the associated image file when the Photo managed object is deleted.
+        Caches.imageCache.deleteImageWithPath(path)
     }
 }
 

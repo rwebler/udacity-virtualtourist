@@ -38,12 +38,7 @@ class ImageCache {
     func storeImage(image: UIImage?, withPath path: String) {
         // If the image is nil, remove images from the cache
         if image == nil {
-            inMemoryCache.removeObjectForKey(path)
-            
-            do {
-                try NSFileManager.defaultManager().removeItemAtPath(path)
-            } catch _ {}
-            
+            deleteImageWithPath(path)
             return
         }
         
@@ -53,6 +48,15 @@ class ImageCache {
         // And in documents directory
         let data = UIImageJPEGRepresentation(image!, 1.0)!
         data.writeToFile(path, atomically: true)
+    }
+    
+    //MARK: - Deleting images
+    func deleteImageWithPath(path: String) {
+        inMemoryCache.removeObjectForKey(path)
+        
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(path)
+        } catch _ {}
     }
     
     // MARK: - Helper

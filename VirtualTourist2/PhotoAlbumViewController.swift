@@ -37,8 +37,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             pin.coordinate = center
             mapView.addAnnotation(pin)
         }
-
-        loadImages()
+        
+        replaceButton.enabled = false
     }
     
     // Layout the collection view
@@ -61,7 +61,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     override func viewWillAppear(animated: Bool) {
-        collectionView!.reloadData()
+        loadImages()
     }
     
     func loadImages() {
@@ -96,14 +96,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func configureCell(cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
         
-        print("in configureCellatIndexPath \(indexPath)")
+        print("in configureCell:atIndexPath \(indexPath)")
         
         if let photo = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Photo {
-            print(photo.thumbnail)
-            cell.photo = photo
-            cell.imageView.image = photo.thumbnail
-        } else {
-            cell.imageView.image = UIImage(named: "placeholder")
+            if let thumbnail = photo.thumbnail {
+                print(thumbnail)
+                cell.photo = photo
+                cell.imageView.image = thumbnail
+            } else {
+                print("placeholder")
+                cell.imageView.image = UIImage(named: "Placeholder")
+            }
         }
     }
     
@@ -118,9 +121,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         let sectionInfo = self.fetchedResultsController.sections![section]
         
         print("number Of Cells: \(sectionInfo.numberOfObjects)")
-        if sectionInfo.numberOfObjects == PER_PAGE {
+        if sectionInfo.numberOfObjects == pin!.maxPhotos! {
             do {
                 try sharedContext.save()
+                replaceButton.enabled = true
             } catch let error as NSError  {
                 print("Could not save \(error), \(error.userInfo)")
             }
@@ -222,6 +226,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBAction func replaceImages(sender: UIButton) {
         print("In replace images")
         pin!.loadNewPage()
-        loadImages()
+        replaceButton.enabled = false
     }
 }

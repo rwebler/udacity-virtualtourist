@@ -161,42 +161,44 @@ class ViewController: UIViewController, MKMapViewDelegate {
     // Long Press Gesture Action
     @IBAction func longPressed(sender: UILongPressGestureRecognizer)
     {
-        print("longpressed")
-        let coordinate = getMapViewCoordinateFromPoint(sender.locationInView(mapView))
-        
-        switch (sender.state) {
-        case .Began:
-            print("Began")
-            print(coordinate)
-            let pin = MKPointAnnotation()
-            currentPin = pin
-            currentPin.coordinate = coordinate
-            mapView.addAnnotation(currentPin)
-        case .Changed:
-            print("Changed")
-            print(coordinate)
-            currentPin.coordinate = coordinate
-        case .Ended:
-            print("Ended")
-            currentPin.coordinate = coordinate
+        if !arePinsEditable {
+            print("longpressed")
+            let coordinate = getMapViewCoordinateFromPoint(sender.locationInView(mapView))
             
-            let dictionary: [String: AnyObject] = [
-                Pin.Keys.Latitude: coordinate.latitude,
-                Pin.Keys.Longitude: coordinate.longitude
-            ]
-            
-            let pin = Pin(dictionary: dictionary, context: sharedContext)
-            
-            do {
-                try sharedContext.save()
-                pins.append(currentPin)
-                pin.loadPhotos()
-            } catch let error as NSError  {
-                print("Could not save \(error), \(error.userInfo)")
+            switch (sender.state) {
+            case .Began:
+                print("Began")
+                print(coordinate)
+                let pin = MKPointAnnotation()
+                currentPin = pin
+                currentPin.coordinate = coordinate
+                mapView.addAnnotation(currentPin)
+            case .Changed:
+                print("Changed")
+                print(coordinate)
+                currentPin.coordinate = coordinate
+            case .Ended:
+                print("Ended")
+                currentPin.coordinate = coordinate
+                
+                let dictionary: [String: AnyObject] = [
+                    Pin.Keys.Latitude: coordinate.latitude,
+                    Pin.Keys.Longitude: coordinate.longitude
+                ]
+                
+                let pin = Pin(dictionary: dictionary, context: sharedContext)
+                
+                do {
+                    try sharedContext.save()
+                    pins.append(currentPin)
+                    pin.loadPhotos()
+                } catch let error as NSError  {
+                    print("Could not save \(error), \(error.userInfo)")
+                }
+            default:
+                print(sender.state)
+                return
             }
-        default:
-            print(sender.state)
-            return
         }
     }
 
