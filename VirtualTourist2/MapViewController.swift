@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  VirtualTourist2
 //
 //  Created by Rodrigo Webler on 11/22/15.
@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var longPressGestureRecognizer: UILongPressGestureRecognizer?
@@ -55,7 +55,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
         if let data = NSUserDefaults.standardUserDefaults().objectForKey(MapProperties.Keys.MapProperties) as? NSData {
             mapProperties = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? MapProperties
-            print(mapProperties!.latitude)
             let center = CLLocationCoordinate2D(latitude: mapProperties!.latitude, longitude: mapProperties!.longitude)
             mapView.setCenterCoordinate(center, animated: true)
             mapView.setRegion(MKCoordinateRegionMake(center, MKCoordinateSpanMake(mapProperties!.latitudeDelta, mapProperties!.longitudeDelta)), animated: true)
@@ -75,7 +74,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         deleteLabel!.textColor = UIColor.whiteColor()
         deleteLabel!.backgroundColor = UIColor.redColor()
         self.view.addSubview(deleteLabel!)
-        print(deleteLabel!.frame.origin.y)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -87,11 +85,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         if let trip = self.currentTrip {
             for pin in trip.pins {
-                print(pin.coordinate!)
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = pin.coordinate!
-                
-                print(annotation)
                 
                 pins.append(annotation)
             }
@@ -126,8 +121,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
-        print("In viewForAnnotation")
-        
         let reuseId = "pin"
         
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
@@ -143,8 +136,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        
-        print("In didSelectAnnotationView")
         if arePinsEditable {
             if let pin = selectPinByCoordinate(view.annotation!.coordinate) {
                 do {
@@ -161,12 +152,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print("In regionDidChangeAnimated")
         if let mapProperties = mapProperties {
             mapProperties.change(mapView)
             let data = NSKeyedArchiver.archivedDataWithRootObject(mapProperties)
             NSUserDefaults.standardUserDefaults().setObject(data, forKey: MapProperties.Keys.MapProperties)
-            print(mapProperties.latitude)
         }
         
     }
@@ -179,23 +168,18 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBAction func longPressed(sender: UILongPressGestureRecognizer)
     {
         if !arePinsEditable {
-            print("longpressed")
             let coordinate = getMapViewCoordinateFromPoint(sender.locationInView(mapView))
             
             switch (sender.state) {
             case .Began:
-                print("Began")
                 print(coordinate)
                 let pin = MKPointAnnotation()
                 currentPin = pin
                 currentPin.coordinate = coordinate
                 mapView.addAnnotation(currentPin)
             case .Changed:
-                print("Changed")
-                print(coordinate)
                 currentPin.coordinate = coordinate
             case .Ended:
-                print("Ended")
                 currentPin.coordinate = coordinate
                 
                 let dictionary: [String: AnyObject] = [
@@ -244,13 +228,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func selectPinByCoordinate(coordinate: CLLocationCoordinate2D) -> Pin? {
         let fetchRequest = NSFetchRequest(entityName: "Pin")
         let filter = NSPredicate(format:"abs(latitude - %f) < 0.0001 AND abs(longitude - %f) < 0.0001", coordinate.latitude, coordinate.longitude)
-        print(filter)
         fetchRequest.predicate = filter
         
         do {
             if let fetchResults = try sharedContext.executeFetchRequest(fetchRequest) as? [Pin] {
-                print(fetchResults.count)
-                if fetchResults.count >= 0 {
+                if fetchResults.count > 0 {
                     let pin = fetchResults[0]
                     return pin
                 }

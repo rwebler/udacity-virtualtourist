@@ -45,7 +45,6 @@ class Pin: NSManagedObject {
         finder.search(self) {
             success, dict, error in
             if (success) {
-                print(self.photos.count)
                 if let dictionary = dict {
                     dispatch_async(dispatch_get_main_queue(), {
                         let photo = Photo(dictionary: dictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)

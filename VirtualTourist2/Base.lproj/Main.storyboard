@@ -9,7 +9,7 @@
         <!--Virtual Tourist-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VirtualTourist2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="VirtualTourist2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RIu-7t-aLF">
-                                <rect key="frame" x="0.0" y="28" width="600" height="572"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RIu-7t-aLF">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <animations/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -30,6 +30,12 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RIu-7t-aLF" secondAttribute="bottom" id="Jdk-ae-c9l"/>
+                            <constraint firstItem="RIu-7t-aLF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="aOZ-8a-wVY"/>
+                            <constraint firstItem="RIu-7t-aLF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="cvI-7A-33S"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="RIu-7t-aLF" secondAttribute="trailing" constant="-20" id="kf9-ki-o7Q"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="B5V-q8-rYh">
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="HOb-Wx-khc">

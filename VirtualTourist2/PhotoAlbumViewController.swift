@@ -99,8 +99,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func configureCell(cell: PhotoAlbumCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
         
-        print("in configureCell:atIndexPath \(indexPath)")
-        
         var image = UIImage(named: "Placeholder")
         
         cell.imageView!.image = nil
@@ -152,7 +150,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsController.sections![section]
         
-        print("number Of Cells: \(sectionInfo.numberOfObjects)")
         if sectionInfo.numberOfObjects == 0 {
             replaceButton.hidden = true
             noImageLabel.hidden = false
@@ -181,11 +178,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        print("In collectionView:didSelectItemAtIndexPath")
-        
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoAlbumCollectionViewCell
         
-        print(cell)
         if replaceButton.enabled {
             if let photo = cell.photo {
                 do {
@@ -210,8 +204,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         insertedIndexPaths = [NSIndexPath]()
         deletedIndexPaths = [NSIndexPath]()
         updatedIndexPaths = [NSIndexPath]()
-        
-        print("in controllerWillChangeContent")
     }
     
     // The second method may be called multiple times, once for each Photo object that is added, deleted, or changed.
@@ -221,28 +213,24 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         switch type{
             
         case .Insert:
-            print("Insert an item")
             // Here we are noting that a new Photo instance has been added to Core Data. We remember its index path
             // so that we can add a cell in "controllerDidChangeContent". Note that the "newIndexPath" parameter has
             // the index path that we want in this case
             insertedIndexPaths.append(newIndexPath!)
             break
         case .Delete:
-            print("Delete an item")
             // Here we are noting that a Photo instance has been deleted from Core Data. We keep remember its index path
             // so that we can remove the corresponding cell in "controllerDidChangeContent". The "indexPath" parameter has
             // value that we want in this case.
             deletedIndexPaths.append(indexPath!)
             break
         case .Update:
-            print("Update an item.")
             // A Photo instance has changed after being created. Core Data would
             // notify us of changes if any occured. This can be useful if you want to respond to changes
             // that come about after an image is downloaded from Flickr
             updatedIndexPaths.append(indexPath!)
             break
         case .Move:
-            print("Move an item. We don't expect to see this in this app.")
             break
         }
     }
@@ -254,8 +242,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     // The most interesting thing about the method is the collection view's "performBatchUpdates" method.
     // Notice that all of the changes are performed inside a closure that is handed to the collection view.
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        
-        print("in controllerDidChangeContent. changes.count: \(insertedIndexPaths.count + deletedIndexPaths.count)")
         
         collectionView.performBatchUpdates({() -> Void in
             
@@ -275,7 +261,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func replaceImages(sender: UIButton) {
-        print("In replace images")
         pin!.loadNewPage()
         replaceButton.enabled = false
     }

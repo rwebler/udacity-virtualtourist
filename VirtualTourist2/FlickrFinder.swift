@@ -40,7 +40,6 @@ class FlickrFinder {
         /* 3 - Initialize session and url */
         let session = NSURLSession.sharedSession()
         let urlString = BASE_URL + escapedParameters(methodArguments as! [String : AnyObject])
-        print(urlString)
         let url = NSURL(string: urlString)!
         let request = NSURLRequest(URL: url)
         
@@ -57,8 +56,6 @@ class FlickrFinder {
                     
                     if let photosDictionary = parsedResult.valueForKey("photos") as? NSDictionary {
                         if let photoArray = photosDictionary.valueForKey("photo") as? [[String: AnyObject]] {
-
-                            print("\(photoArray.count) photos")
                             pin.maxPhotos = photoArray.count
                             for photoDictionary in photoArray {
                                 /* 7 - Get the image url and id */
@@ -93,8 +90,6 @@ class FlickrFinder {
         let session = NSURLSession.sharedSession()
         
         let url = NSURL(string: filePath)
-        
-        print(url)
         
         let request = NSURLRequest(URL: url!)
         
